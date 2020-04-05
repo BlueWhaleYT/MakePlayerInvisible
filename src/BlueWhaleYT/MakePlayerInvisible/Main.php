@@ -54,14 +54,14 @@ class Main extends PluginBase implements Listener{
     foreach($this->getServer()->getOnlinePlayers() as $players){
 $player->hidePlayer($players);
     }
-    $player->addTitle("Player Invisible", TF::GREEN . "Enabled", 20, 20, 20);
+    $player->addTitle("Player Invisible", TF::GREEN . TF::BOLD . "Enabled!", 20, 20, 20);
   }
   
   public function onVisible($player){
     foreach($this->getServer()->getOnlinePlayers() as $players){
 $player->showPlayer($players);
     }
-    $player->addTitle("Player Invisible", TF::RED . "Disabled", 20, 20, 20);
+    $player->addTitle("Player Invisible", TF::RED . TF::BOLD . "Disabled!", 20, 20, 20);
   }
   
 }
