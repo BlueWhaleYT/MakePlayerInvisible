@@ -29,24 +29,30 @@ class Main extends PluginBase implements Listener{
   public function onInteract(PlayerInteractEvent $event){
     $player = $event->getPlayer();
     $itemIds = $player->getInventory()->getItemInHand()->getId();
+    $itemData = $player->getInventory()->getItemInHand()->getDamage();
     $itemName = $player->getInventory()->getItemInHand()->getName();
+    $level = $player->getLevel()->getName();
     
-    if($itemIds == 369 and $itemName == "Invisible"){
+    if($itemIds == 351 and $itemData == 10 and $itemName == "§a§lInvisible"){
+      if($level === "world"){
       $player->getLevel()->addSound(new PopSound(new Vector3($player->getX(), $player->getY(), $player->getZ())));
       $this->onInvisible($player);
-      $player->getInventory()->setItem(7, Item::get(280, 0, 1)->setCustomName("Visible"));
+      $player->getInventory()->setItem(7, Item::get(351, 8, 1)->setCustomName("§7§lVisible"));
+      }
     }
-    if($itemIds == 280 and $itemName == "Visible"){
+    if($itemIds == 351 and $itemData == 8 and $itemName == "§7§lVisible"){
+      if($level === "world"){
       $player->getLevel()->addSound(new PopSound(new Vector3($player->getX(), $player->getY(), $player->getZ())));
       $this->onVisible($player);
-      $player->getInventory()->setItem(7, Item::get(369, 0, 1)->setCustomName("Invisible"));
+      $player->getInventory()->setItem(7, Item::get(351, 10, 1)->setCustomName("§a§lInvisible"));
+      }
     }
     
   }
   
   public function onJoin(PlayerJoinEvent $event){
     $player = $event->getPlayer();
-    $player->getInventory()->setItem(7, Item::get(369, 0, 1)->setCustomName("Invisible"));
+    $player->getInventory()->setItem(7, Item::get(351, 10, 1)->setCustomName("§a§lInvisible"));
     
   }
   
@@ -54,14 +60,14 @@ class Main extends PluginBase implements Listener{
     foreach($this->getServer()->getOnlinePlayers() as $players){
 $player->hidePlayer($players);
     }
-    $player->addTitle("Player Invisible", TF::GREEN . TF::BOLD . "Enabled!", 20, 20, 20);
+    $player->sendPopup("Player" . TF::GREEN . TF::BOLD . " Enabled\n\n\n");
   }
   
   public function onVisible($player){
     foreach($this->getServer()->getOnlinePlayers() as $players){
 $player->showPlayer($players);
     }
-    $player->addTitle("Player Invisible", TF::RED . TF::BOLD . "Disabled!", 20, 20, 20);
+    $player->sendPopup("Player" . TF::RED . TF::BOLD . " Disabled\n\n\n");
   }
   
 }
