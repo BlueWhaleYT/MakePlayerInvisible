@@ -10,6 +10,9 @@ use pocketmine\Player;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerDropItemEvent;
+use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\inventory\InventoryTransactionEvent;
 
 use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
@@ -53,6 +56,34 @@ class Main extends PluginBase implements Listener{
   public function onJoin(PlayerJoinEvent $event){
     $player = $event->getPlayer();
     $player->getInventory()->setItem(7, Item::get(351, 10, 1)->setCustomName("§a§lInvisible"));
+    
+  }
+  
+  public function onDeath(PlayerDeathEvent $event){
+    $player = $event->getPlayer();
+    $player->getInventory()->setItem(7, Item::get(351, 10, 1)->setCustomName("§a§lInvisible"));
+    
+  }
+  
+  public function onDrop(PlayerDropItemEvent $ev){
+    $player = $ev->getPlayer();
+    $itemIds = $player->getInventory()->getItemInHand()->getId();
+    $itemName = $player->getInventory()->getItemInHand()->getName();
+    if($itemIds == 345 and $itemName == "§b§l主選單"){
+      $ev->setCancelled();
+    }
+  }
+  
+  public function onTransaction(InventoryTransactionEvent $ev){
+    foreach($ev->getTransaction()->getActions() as $action){
+      
+      $itemIds = $action->getSourceItem()->getId();
+    $itemName = $action->getSourceItem()->getCustomName();
+    
+      if($itemIds == 345 and $itemName == "§b§l主選單"){
+        $ev->setCancelled();
+      }
+    }
     
   }
   
