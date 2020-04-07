@@ -69,7 +69,11 @@ class Main extends PluginBase implements Listener{
     $player = $ev->getPlayer();
     $itemIds = $player->getInventory()->getItemInHand()->getId();
     $itemName = $player->getInventory()->getItemInHand()->getName();
-    if($itemIds == 345 and $itemName == "§b§l主選單"){
+    $itemData = $player->getInventory()->getItemInHand()->getDamage();
+    if($itemIds == 351 and $itemData == 10 and $itemName == "§a§lInvisible"){
+      $ev->setCancelled();
+    }
+    if($itemIds == 351 and $itemData == 8 and $itemName == "§7§lVisible"){
       $ev->setCancelled();
     }
   }
@@ -79,8 +83,12 @@ class Main extends PluginBase implements Listener{
       
       $itemIds = $action->getSourceItem()->getId();
     $itemName = $action->getSourceItem()->getCustomName();
+    $itemData = $action->getSourceItem()->getDamage();
     
-      if($itemIds == 345 and $itemName == "§b§l主選單"){
+      if($itemIds == 351 and $itemData == 10 and $itemName == "§a§lInvisible"){
+        $ev->setCancelled();
+      }
+      if($itemIds == 351 and $itemData == 8 and $itemName == "§7§lVisible"){
         $ev->setCancelled();
       }
     }
